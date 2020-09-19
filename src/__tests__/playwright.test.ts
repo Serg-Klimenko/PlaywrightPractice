@@ -4,13 +4,13 @@ let browser;
 let context;
 let page;
 
-beforeAll(async ()=>{
-    browser = await playwright.firefox.launch({ headless: false, slowMo: 1000 });
-    context = await browser.newContext();
-    page = await context.newPage();
-})
+beforeAll(async () => {
+  browser = await playwright.firefox.launch({ headless: false, slowMo: 1000 });
+  context = await browser.newContext();
+  page = await context.newPage();
+});
 afterAll(async () => {
-    await browser.close();
+  await browser.close();
 });
 
 describe("Test playwright on https://the-internet.herokuapp.com/", () => {
@@ -40,11 +40,20 @@ describe("Test playwright on https://the-internet.herokuapp.com/", () => {
     await page.check("#checkboxes :first-child");
     await page.uncheck("#checkboxes :last-child");
   });
-  test.only("5. Context Menu", async () => {
+  test("5. Context Menu", async () => {
     await page.goto("https://the-internet.herokuapp.com/");
     await page.click("[href='/context_menu']");
-    await page.click('#hot-spot', {button: 'right'});
-})
+    await page.click("#hot-spot", { button: "right" });
+  });
+  test("6. Digest Authentication", async () => {
+    context = await browser.newContext({
+        httpCredentials: { username: "admin", password: "admin" },
+      });
+      page = await context.newPage();
+      await page.goto("https://the-internet.herokuapp.com/digest_auth");
+      await page.waitForSelector("#content");
+  });
+  
   test.skip("Test iFrames", async () => {
     await page.goto("https://the-internet.herokuapp.com/");
     const frames = await page.frames();
