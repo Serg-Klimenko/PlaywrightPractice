@@ -53,7 +53,12 @@ describe("Test playwright on https://the-internet.herokuapp.com/", () => {
       await page.goto("https://the-internet.herokuapp.com/digest_auth");
       await page.waitForSelector("#content");
   });
-  
+  test.only("7. Dropdown List", async () => {
+    await page.goto("https://the-internet.herokuapp.com/");
+    await page.click("[href='/dropdown']");
+    await page.selectOption('select#dropdown', '1');
+    await page.selectOption('select#dropdown', '2');
+  })
   test.skip("Test iFrames", async () => {
     await page.goto("https://the-internet.herokuapp.com/");
     const frames = await page.frames();
