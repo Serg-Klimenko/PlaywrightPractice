@@ -1,4 +1,4 @@
-const playwright = require('playwright');
+import playwright from 'playwright';
  
 describe ('Typescript', () => {
   test('pow function', async () => {

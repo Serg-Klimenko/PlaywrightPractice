@@ -53,11 +53,20 @@ describe("Test playwright on https://the-internet.herokuapp.com/", () => {
       await page.goto("https://the-internet.herokuapp.com/digest_auth");
       await page.waitForSelector("#content");
   });
-  test.only("7. Dropdown List", async () => {
+  test("7. Dropdown List", async () => {
     await page.goto("https://the-internet.herokuapp.com/");
     await page.click("[href='/dropdown']");
     await page.selectOption('select#dropdown', '1');
     await page.selectOption('select#dropdown', '2');
+  })
+  test.only ("8. Enable Input Field", async () => {
+    await page.goto("https://the-internet.herokuapp.com/");
+    await page.click("[href='/dynamic_controls']");
+    await page.click("form#input-example>button");
+    await page.waitForTimeout(3000);
+    const result = await page.$eval("form#input-example>input", el => el.disabled);
+    // Input field is enabled
+    expect(result).toBeFalsy();
   })
   test.skip("Test iFrames", async () => {
     await page.goto("https://the-internet.herokuapp.com/");
