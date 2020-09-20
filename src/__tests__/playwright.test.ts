@@ -59,7 +59,7 @@ describe("Test playwright on https://the-internet.herokuapp.com/", () => {
     await page.selectOption('select#dropdown', '1');
     await page.selectOption('select#dropdown', '2');
   })
-  test.only ("8. Enable Input Field", async () => {
+  test("8. Enable Input Field", async () => {
     await page.goto("https://the-internet.herokuapp.com/");
     await page.click("[href='/dynamic_controls']");
     await page.click("form#input-example>button");
@@ -67,6 +67,14 @@ describe("Test playwright on https://the-internet.herokuapp.com/", () => {
     const result = await page.$eval("form#input-example>input", el => el.disabled);
     // Input field is enabled
     expect(result).toBeFalsy();
+  })
+  test.only("9. Login Page", async () => {
+    await page.goto("https://the-internet.herokuapp.com/");
+    await page.click("[href='/login']");
+    await page.fill('#username', 'tomsmith');
+    await page.fill('#password', 'SuperSecretPassword!');
+    await page.click("button.radius");
+    await page.waitForSelector("#flash-messages");
   })
   test.skip("Test iFrames", async () => {
     await page.goto("https://the-internet.herokuapp.com/");
