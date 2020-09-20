@@ -40,10 +40,11 @@ describe("Test playwright on https://the-internet.herokuapp.com/", () => {
     await page.check("#checkboxes :first-child");
     await page.uncheck("#checkboxes :last-child");
   });
-  test("5. Context Menu", async () => {
+  test.skip("5. Context Menu", async () => {
     await page.goto("https://the-internet.herokuapp.com/");
     await page.click("[href='/context_menu']");
     await page.click("#hot-spot", { button: "right" });
+    // Test is finished after close alert window (?????)
   });
   test("6. Digest Authentication", async () => {
     context = await browser.newContext({
@@ -68,7 +69,7 @@ describe("Test playwright on https://the-internet.herokuapp.com/", () => {
     // Input field is enabled
     expect(result).toBeFalsy();
   })
-  test.only("9. Login Page", async () => {
+  test("9. Login Page", async () => {
     await page.goto("https://the-internet.herokuapp.com/");
     await page.click("[href='/login']");
     await page.fill('#username', 'tomsmith');
@@ -76,11 +77,4 @@ describe("Test playwright on https://the-internet.herokuapp.com/", () => {
     await page.click("button.radius");
     await page.waitForSelector("#flash-messages");
   })
-  test.skip("Test iFrames", async () => {
-    await page.goto("https://the-internet.herokuapp.com/");
-    const frames = await page.frames();
-    const frame1 = frames[0];
-    await page.waitForTimeout(10000);
-    await browser.close();
-  });
 });
