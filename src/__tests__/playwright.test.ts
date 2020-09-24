@@ -1,4 +1,7 @@
 //import playwright from "playwright";
+
+import { createImmediatelyInvokedFunctionExpression } from "typescript";
+
 //const chromium = require("playwright-chromium");
 const playwright = require("playwright");
 
@@ -43,7 +46,7 @@ describe("Test playwright on https://the-internet.herokuapp.com/", () => {
     await page.check("#checkboxes :first-child");
     await page.uncheck("#checkboxes :last-child");
   });
-  test.only("5. Context Menu", async () => {
+  test("5. Context Menu", async () => {
     await page.goto("https://the-internet.herokuapp.com/");
     await page.click("[href='/context_menu']");
     page.on('dialog', async dialog => { 
@@ -83,5 +86,11 @@ describe("Test playwright on https://the-internet.herokuapp.com/", () => {
     await page.fill('#password', 'SuperSecretPassword!');
     await page.click("button.radius");
     await page.waitForSelector("#flash-messages");
+  })
+  test.only("10. Notification message", async () => {
+    await page.goto("https://the-internet.herokuapp.com");
+    await page.click("[href='/notification_message']");
+    await page.click("[href='/notification_message']");
+    await page.waitForSelector("#flash");
   })
 });
