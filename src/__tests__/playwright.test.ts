@@ -1,4 +1,6 @@
-import playwright from "playwright";
+//import playwright from "playwright";
+//const chromium = require("playwright-chromium");
+const playwright = require("playwright");
 
 let browser;
 let context;
@@ -6,6 +8,7 @@ let page;
 
 beforeAll(async () => {
   browser = await playwright.firefox.launch({ headless: false, slowMo: 1000 });
+  //browser = await chromium.launch({headless: false, slowMo: 1000});
   context = await browser.newContext();
   page = await context.newPage();
 });
@@ -40,11 +43,15 @@ describe("Test playwright on https://the-internet.herokuapp.com/", () => {
     await page.check("#checkboxes :first-child");
     await page.uncheck("#checkboxes :last-child");
   });
-  test.skip("5. Context Menu", async () => {
+  test.only("5. Context Menu", async () => {
     await page.goto("https://the-internet.herokuapp.com/");
     await page.click("[href='/context_menu']");
+    page.on('dialog', async dialog => { 
+      // Close alert window
+      await dialog.dismiss();
+    });
     await page.click("#hot-spot", { button: "right" });
-    // Test is finished after close alert window (?????)
+    
   });
   test("6. Digest Authentication", async () => {
     context = await browser.newContext({
